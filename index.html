@@ -31,12 +31,30 @@
         button:hover {
             background-color: #d0d0d0;
         }
+        header {
+            background: #444;
+            color: #fc0; font-family: Consolas, monospace;
+            width: 30%;
+            min-width: 5em;
+            font-size: 32px;
+            margin: 1em 0 1em -1em; border-radius: 11px;
+        }
+        header h1, header h2 {
+            padding: 10px 32px; margin: 0;
+        }
+        header h1 {
+            font-size: 32px;
+            margin-bottom: 0; padding-bottom: 0;
+        }
+        header h2 {
+            font-size: 12px; font-family: Helvetica, Arial, sans-serif;
+            margin-top: 0; padding-top: 0; font-weight: normal;
+        }
 		hr {
 			border: none; background: none; height: 0; visibility: hidden; clear: both;
 		}
         p {
             margin-right: 400px;
-            margin-left: .75em;
         }
         pre, span.pre {
             background: #e0e0e0; font-size: 12px; font-family: Consolas, monospace;
@@ -126,7 +144,10 @@
 </head>
 <body>
 <script type="text/javascript" src="https://raw.github.com/Oaxoa/Conzole/master/conzole.js"></script>
-<h1>Conzole</h1>
+<header>
+    <h1>Conzole</h1>
+    <h2>v0.1.0</h2>
+</header>
 <ul class="downloads">
     <li><a href="https://github.com/Oaxoa/Conzole/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a></li>
     <li><a href="https://github.com/Oaxoa/Conzole/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a></li>
