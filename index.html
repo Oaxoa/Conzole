@@ -55,9 +55,13 @@
             border-bottom: 1px solid #ccc;
             padding: .3em .8em;
         }
+        .downloads {
+            margin: 0; padding: 0;
+        }
         .downloads li {
             float: left; border: none; border-right: 1px solid #999;
         }
+        .downloads li.last {border: none;}
 	</style>
 	<script type="text/javascript">
 		window.onload=function() {
@@ -121,12 +125,12 @@
 	</script>
 </head>
 <body>
-<script type="text/javascript" src="conzole.js"></script>
+<script type="text/javascript" src="https://raw.github.com/Oaxoa/Conzole/master/conzole.js"></script>
 <h1>Conzole</h1>
 <ul class="downloads">
     <li><a href="https://github.com/Oaxoa/Conzole/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a></li>
     <li><a href="https://github.com/Oaxoa/Conzole/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a></li>
-    <li><a href="https://github.com/Oaxoa/Conzole" id="view-on-github" class="button"><span>View on GitHub</span></a></li>
+    <li class="last"><a href="https://github.com/Oaxoa/Conzole" id="view-on-github" class="button"><span>View on GitHub</span></a></li>
 </ul>
 <hr />
 <p>
