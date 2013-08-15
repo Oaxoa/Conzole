@@ -50,6 +50,9 @@
             font-size: 12px; font-family: Helvetica, Arial, sans-serif;
             margin-top: 0; padding-top: 0; font-weight: normal;
         }
+        header span.author {
+            color: #AA9;
+        }
 		hr {
 			border: none; background: none; height: 0; visibility: hidden; clear: both;
 		}
@@ -146,7 +149,7 @@
 <script type="text/javascript" src="https://raw.github.com/Oaxoa/Conzole/master/conzole.js"></script>
 <header>
     <h1>Conzole</h1>
-    <h2>v0.1.0</h2>
+    <h2>v0.1.0 <span class="author">by Pierluigi Pesenti</span></h2>
 </header>
 <ul class="downloads">
     <li><a href="https://github.com/Oaxoa/Conzole/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a></li>
@@ -210,5 +213,18 @@ Include it once and see it the same every time you open up the page, in every br
 	<button id="b41">conzole.watching.foo=null</button>
 	<button id="b42">delete conzole.watching.foo</button>
 </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31925718-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
 </body>
 </html>
