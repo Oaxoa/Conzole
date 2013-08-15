@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+     <title>Conzole test page</title>
+	<style>
+		body {
+			background: #f0f0f0;
+			font-family: Helvetica, sans-serif;
+            padding: 0 1em;
+		}
+		button {
+			display: block;
+			font-family: Consolas, monospace;
+			border: 1px solid #aaa;
+			border-radius: 5px;
+			padding: .35em 1em;
+			border-bottom-width: 3px;
+			cursor: pointer;
+			font-size: 14px;
+			margin-left: 2em;
+            margin-bottom: .3em;
+		}
+        button:hover {
+            background-color: #d0d0d0;
+        }
+		hr {
+			border: none; background: none; height: 0; visibility: hidden;
+		}
+        p {
+            margin-right: 400px;
+            margin-left: .75em;
+        }
+        pre, span.pre {
+            background: #e0e0e0; font-size: 12px; font-family: Consolas, monospace;
+            padding: 1em; border: 1px solid #ccc;
+        }
+        pre em {
+            color: #777;
+        }
+        span.pre {
+            display: inline; padding: .3em .8em;
+        }
+        ul {
+            list-style: none;
+        }
+        li {
+            border-bottom: 1px solid #ccc;
+            padding: .3em .8em;
+        }
+	</style>
+	<script type="text/javascript">
+		window.onload=function() {
+		
+			var o={asd:5, arf:100, caz:'bo', ciao:true};
+			
+			var b00=document.getElementById('b00');
+			var b01=document.getElementById('b01');
+			var b02=document.getElementById('b02');
+			var b03=document.getElementById('b03');
+            listen('click', b00, function() {conzole.open();});
+            listen('click', b01, function() {conzole.close();});
+            listen('click', b02, function() {conzole.toggle();});
+            listen('click', b03, function() {conzole.setWidth(parseInt(Math.random()*1000))});
+            
+			var b10=document.getElementById('b10');
+			var b11=document.getElementById('b11');
+			var b12=document.getElementById('b12');
+			var b13=document.getElementById('b13');
+			
+			listen('click', b10, function() {console.log('a log');});
+			listen('click', b11, function() {console.info('an info');});
+			listen('click', b12, function() {console.warn('a warn');});
+			listen('click', b13, function() {console.error('an error');});
+
+			var b20=document.getElementById('b20');
+			var b21=document.getElementById('b21');
+			
+			listen('click', b20, function() {console.time('timer1');});
+			listen('click', b21, function() {console.timeEnd('timer1');});
+			
+			var b30=document.getElementById('b30');
+			var b31=document.getElementById('b31');
+			
+			listen('click', b30, function() {console.time('timer2');});
+			listen('click', b31, function() {console.timeEnd('timer2');});
+			
+			var b40=document.getElementById('b40');
+			var b41=document.getElementById('b41');
+			var b42=document.getElementById('b42');
+			
+			listen('click', b40, function() {conzole.watching.foo=Math.random();});
+			listen('click', b41, function() {conzole.watching.foo=null});
+			listen('click', b42, function() {delete conzole.watching.foo;});
+			
+			var interval=setInterval(function() {
+				window.a=parseInt(Math.random()*100);
+				o.arf=Math.random();
+				conzole.watching.MainValue=a;
+				conzole.watching.object=o;
+			}, 50);
+		
+			console.log('Welcome to Conzole. This is my first console log.');
+			conzole.open();
+		}
+		function listen(e, el, f) {
+			if (el.addEventListener) el.addEventListener(e,f,false);
+			else if (el.attachEvent) return el.attachEvent('on'+e,f);
+			else alert('Cannot listen events.');
+		}
+	</script>
+</head>
+<body>
+<script type="text/javascript" src="conzole.js"></script>
+<h1>Conzole</h1>
+<p>
+Conzole is a debug panel built in javascript that wraps javascript native console object methods and functionality in a panel displayed inside the page.
+Include it once and see it the same every time you open up the page, in every browser, on mobile etc.
+</p><p>It also adds some unique functions as the &ldquo;watching&rdquo; list. It let you watch variables as many browsers debug console does. But setting up the watches via javascript is much easier, can be conditional and you don't have to do it every time you launch the browser.
+
+</p>
+<h2>Usage</h2>
+<p>Include the script just after the <span class="pre">&lt;body&gt;</span> open tag:</p>
+<pre>
+&lt;/head&gt;
+&lt;body&gt;
+    <strong>&lt;script type="text/javascript" src="conzole.js"&gt;&lt;/script&gt;</strong>
+    <em>&lt;!-- rest of body content --&gt;</em>
+</pre>
+<div>
+	<h2>Panel managment</h2>
+    <p>Drag left edge to resize panel.</p>
+    <p>Press bound keys to accomplish the following tasks (active when focus is not isnide a input item).</p>
+    <p>Keyboard bindings:</p>
+    <ul>
+        <li>'z' toggle panel;</li>
+        <li>'c' clear panel content;</li>
+        <li>'u' toggle panel active/paused;</li>
+        <li>'t' show alternate timings (current time/time elapsed from previous message)</li>
+    </ul>
+    
+    <p>Otherwise call specific methods via javascript:</p>
+	<button id="b00">conzole.open()</button>
+	<button id="b01">conzole.close()</button>
+	<button id="b02">conzole.toggle()</button>
+	<button id="b03">conzole.setWidth(parseInt(Math.random()*1000))</button>
+</div>
+<div>
+	<h2>Basic</h2>
+    <p>Notice the javascript native "console" is called. </p>
+	<button id="b10">console.log('a log')</button>
+	<button id="b11">console.info('an info')</button>
+	<button id="b12">console.warn('a warn')</button>
+	<button id="b13">console.error('an error')</button>
+</div>
+<div>
+	<h2>Timers</h2>
+    <p>Notice the javascript native "console" is called. </p>
+	<button id="b20">console.time('timer1')</button>
+	<button id="b21">console.timeEnd('timer1')</button>
+	<hr />
+	<button id="b30">console.time('timer2')</button>
+	<button id="b31">console.timeEnd('timer2')</button>
+</div>
+<div>
+	<h2>Watch</h2>
+    <p>Update of the values must be explicitly called every time. Autoupdate has been intentionally not implemented.</p>
+	<button id="b40">conzole.watching.foo=Math.random()</button>
+	<button id="b41">conzole.watching.foo=null</button>
+	<button id="b42">delete conzole.watching.foo</button>
+</div>
+</body>
+</html>
