@@ -152,8 +152,9 @@ conzole=(function($parent, undefined) {
 			'\r\n#cb2.on {background-position: 0 -60px	;}'+
 			'\r\n#cb3 {background-position: 0 -80px	;}'+
 			'\r\n#cb3.on {background-position: 0 -100px	;}'+
-			'\r\n#conzoleHelp a {color: #fc0; text-decoration: none;}'+
+			'\r\n#conzoleHelp a {color: #fc0; text-decoration: none; font-weight: normal;}'+
 			'\r\n#conzoleHelp {color: #fff; display: none; margin-top: 40px; text-align: center;}'+
+			'\r\n#conzoleHelp p {margin: .8em 0; padding: 0; min-width: auto; width: auto; height: auto;}'+
 			'\r\n#conzoleLogo {position: absolute; right: 0; top: 0; height: 32px; width: 126px;}'+
 			'\r\n#conzoleLogo h1 {position: absolute; right: 12px; top: 8px; margin: 0; padding: 0; width: 88px; height: 18px; background: transparent url('+sprite+') no-repeat -20px -20px; text-indent: -9999px; overflow: hidden;}'+
 			'\r\n#conzoleLogo span {position: absolute; right: 106px; top: 8px; width: 20px; height: 20px; display: block; background: transparent url('+sprite+') no-repeat -20px -40px; text-indent: -9999px; overflow: hidden;}'+
