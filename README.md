@@ -1,6 +1,8 @@
 Conzole
 =======
 
+Refer to: http://oaxoa.github.io/Conzole/
+
 Conzole is a debug panel built in javascript that wraps javascript native console object methods and functionality in a panel displayed inside the page.
 Include it once and see it the same every time you open up the page, in every browser, on mobile etc.
 
