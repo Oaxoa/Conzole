@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title>Conzole test page</title>
+    <title>Conzole</title>
 	<style>
 		body {
 			background: #f0f0f0;
@@ -87,7 +87,7 @@
 	<script type="text/javascript">
 		window.onload=function() {
 		
-			var o={asd:5, arf:100, caz:'bo', ciao:true};
+			var o={foo:5, bar:100, baz:'bo', caz:true};
 			
 			var b00=document.getElementById('b00');
 			var b01=document.getElementById('b01');
@@ -130,9 +130,10 @@
 			
 			var interval=setInterval(function() {
 				window.a=parseInt(Math.random()*100);
-				o.arf=Math.random();
-				conzole.watching.MainValue=a;
-				conzole.watching.object=o;
+				o.foo=parseInt(Math.random()*9);
+				o.bar=Math.round(Math.random()*100)/100;
+				conzole.watching.SomeValue=a;
+				conzole.watching.SomeObject=o;
 			}, 50);
 		
 			console.log('Welcome to Conzole. This is my first console log.');
@@ -146,7 +147,7 @@
 	</script>
 </head>
 <body>
-<script type="text/javascript" src="https://raw.github.com/Oaxoa/Conzole/master/conzole.js"></script>
+<script type="text/javascript" src="conzole.js"></script>
 <header>
     <h1>Conzole</h1>
     <h2>v0.1.0 <span class="author">by Pierluigi Pesenti</span></h2>
