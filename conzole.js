@@ -264,6 +264,7 @@ conzole=(function($parent, undefined) {
 		update();
 		// force repaint in Opera
 		width=width+1;
+		width=width-1;
 	}
 	function toggleHelp() {
 		helpVisible=!helpVisible;
@@ -369,22 +370,22 @@ conzole=(function($parent, undefined) {
 		var node = (e.target) ? e.target : ((e.srcElement) ? e.srcElement : null);
 
 		var el;
-		if (node.type!='textarea' && node.type!='input') {
+		if (node.type!=='textarea' && node.type!=='text' && node.type!=='password') {
 			switch(e.keyCode) {
-				case 122:
+				case 122: // z
 					toggle();
 					break;
-				case 117:
+				case 117: // u
 					el=document.getElementById('conzoleUpdate');
 					el.checked=!el.checked;
 					el.onchange();
 					break;
-				case 116:
+				case 116: // t
 					el=document.getElementById('conzoleShowTimeDiff');
 					el.checked=!el.checked;
 					el.onchange();
 					break;
-				case 99:
+				case 99: // c
 					el=document.getElementById('conzoleClear');
 					el.onclick();
 					break;

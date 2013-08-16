@@ -70,7 +70,7 @@
             display: inline; padding: .3em .8em;
         }
         ul {
-            list-style: none;
+            list-style: none; padding: 0; margin: 1em;
         }
         li {
             border-bottom: 1px solid #ccc;
@@ -164,14 +164,17 @@ Include it once and see it the same every time you open up the page, in every br
 </p><p>It also adds some unique functions as the &ldquo;watching&rdquo; list. It let you watch variables as many browsers debug console does. But setting up the watches via javascript is much easier, can be conditional and you don't have to do it every time you launch the browser.
 
 </p>
-<h2>Usage</h2>
-<p>Include the script just after the <span class="pre">&lt;body&gt;</span> open tag:</p>
-<pre>
-&lt;/head&gt;
-&lt;body&gt;
-    <strong>&lt;script type="text/javascript" src="conzole.js"&gt;&lt;/script&gt;</strong>
-    <em>&lt;!-- rest of body content --&gt;</em>
-</pre>
+<div>
+    <h2>Usage</h2>
+    <p>Include the script just after the <span class="pre">&lt;body&gt;</span> open tag:</p>
+    <pre>
+    &lt;/head&gt;
+    &lt;body&gt;
+        <strong>&lt;script type="text/javascript" src="conzole.js"&gt;&lt;/script&gt;</strong>
+        <em>&lt;!-- rest of body content --&gt;</em>
+    </pre>
+    <p>By default panel is closed. In this demo <span class="pre">conzole.open()</span> is being called.</p>
+</div>
 <div>
 	<h2>Panel managment</h2>
     <p>Drag left edge to resize panel.</p>
@@ -183,6 +186,11 @@ Include it once and see it the same every time you open up the page, in every br
         <li>'u' toggle panel active/paused;</li>
         <li>'t' show alternate timings (current time/time elapsed from previous message)</li>
     </ul>
+    <p>Test keypress while focusing an input field will not trigger conzole methods: </p>
+    <p><input /></p>
+    <p><input type="password" /></p>
+    <p><textarea></textarea></p>
+
     
     <p>Otherwise call specific methods via javascript:</p>
 	<button id="b00">conzole.open()</button>
