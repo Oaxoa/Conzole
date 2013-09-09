@@ -51,10 +51,10 @@ conzole=(function($parent, undefined) {
 		}
 		
 		
-		console.log=function(arg) {if(console.formerLog) {console.formerLog(arg);} conzole.log(arg);}
-		console.info=function(arg) {if(console.formerInfo) {console.formerInfo(arg);} conzole.info(arg);}
-		console.warn=function(arg) {if(console.formerWarn) {console.formerWarn(arg);} conzole.warn(arg);}
-		console.error=function(arg) {if(console.formerError) {console.formerError(arg);} conzole.error(arg);}
+		console.log=function() {if(console.formerLog) {console.formerLog.apply(this, arguments);} conzole.log.apply(this, arguments);}
+		console.info=function() {if(console.formerInfo) {console.formerInfo.apply(this, arguments);} conzole.info.apply(this, arguments);}
+		console.warn=function() {if(console.formerWarn) {console.formerWarn.apply(this, arguments);} conzole.warn.apply(this, arguments);}
+		console.error=function() {if(console.formerError) {console.formerError.apply(this, arguments);} conzole.error.apply(this, arguments);}
 		console.time=function(arg) {if(console.formerTime) {console.formerTime(arg);} conzole.time(arg);}
 		console.timeEnd=function(arg) {if(console.formerTimeEnd) {console.formerTimeEnd(arg);} conzole.timeEnd(arg);}
 	}
@@ -330,6 +330,8 @@ conzole=(function($parent, undefined) {
 		}
 	}
 	function doLog(message, type, caller) {
+		var args = Array.prototype.slice.call(message);
+		message=args.join(' ');
 		var ntime=now();
 		var tdiff=latestTime>0 ? ntime-latestTime : 0;
 		latestTime=ntime;
@@ -354,17 +356,17 @@ conzole=(function($parent, undefined) {
 		
 		if(autoUpdate) update();
 	}
-	function log(arg) {
-		doLog(arg, 'log');
+	function log() {
+		doLog(arguments, 'log');
 	}
-	function info(arg) {
-		doLog(arg, 'info');
+	function info() {
+		doLog(arguments, 'info');
 	}
-	function warn(arg) {
-		doLog(arg, 'warn');
+	function warn() {
+		doLog(arguments, 'warn');
 	}
-	function error(arg) {
-		doLog(arg, 'error');
+	function error() {
+		doLog(arguments, 'error');
 		open();
 	}
 	function returnKey(e) {

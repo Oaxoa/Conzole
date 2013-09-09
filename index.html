@@ -105,6 +105,7 @@
 			listen('click', b11, function() {console.info('an info');});
 			listen('click', b12, function() {console.warn('a warn');});
 			listen('click', b13, function() {console.error('an error');});
+            listen('click', b14, function() {console.log(3, ' multiplied by ', 2, 'equals', 6);});
 
 			var b20=document.getElementById('b20');
 			var b21=document.getElementById('b21');
@@ -206,6 +207,9 @@ Include it once and see it the same every time you open up the page, in every br
 	<button id="b11">console.info('an info')</button>
 	<button id="b12">console.warn('a warn')</button>
 	<button id="b13">console.error('an error')</button>
+    
+    <p>You can pass multiple arguments to the functions having them concatenated by spaces</p>
+    <button id="b14">console.log(3, 'multiplied by', 2, 'equals', 6);</button>
 </div>
 <div>
 	<h2>Timers</h2>
@@ -218,8 +222,8 @@ Include it once and see it the same every time you open up the page, in every br
 </div>
 <div>
 	<h2>Watch</h2>
-    <p>Primitive values are passed by value. Update of the values must be explicitly called every time by re-setting the watching variable.<br />
-    Object variables are passed by reference. conzole.watchin variable will refer to the original object and display changes.</p>
+    <p>Primitive variable types (integer, string) are passed by value. Update of the values must be explicitly called every time by re-setting the watching variable.<br />
+    Object and array variables are passed by reference. conzole.watching variable will refer to the original object and display changes.</p>
 	<button id="b40">conzole.watching.foo=Math.random()</button>
 	<button id="b41">conzole.watching.foo=null</button>
 	<button id="b42">delete conzole.watching.foo</button>
