@@ -27,6 +27,12 @@ conzole=(function($parent, undefined) {
 		watchFields=[]
 		;
 
+	var
+		GROUP=0,
+		GROUP_COLLAPSED=1,
+		GROUP_END=2
+	;
+
 	init();
 	function now() {
 		return new Date().valueOf();
@@ -35,32 +41,44 @@ conzole=(function($parent, undefined) {
 		if(!window.console) {
 			window.console={};
 			window.console.log=function() {}
+			window.console.debug=function() {}
 			window.console.info=function() {}
 			window.console.warn=function() {}
 			window.console.error=function() {}
 			window.console.time=function() {}
 			window.console.timeEnd=function() {}
-			window.console={};
+			window.console.group=function() {}
+			window.console.groupCollapsed=function() {}
+			window.console.groupEnd=function() {}
+			//window.console={};
 		} else {
 			console.formerLog=console.log;
+			console.formerDebug=console.debug;
 			console.formerInfo=console.info;
 			console.formerWarn=console.warn;
 			console.formerError=console.error;
 			console.formerTime=console.time;
 			console.formerTimeEnd=console.timeEnd;
+			console.formerGroup=console.group;
+			console.formerGroupCollapsed=console.groupCollapsed;
+			console.formerGroupEnd=console.groupEnd;
 		}
-		
-		
+
+
 		console.log=function() {if(console.formerLog) {console.formerLog.apply(this, arguments);} conzole.log.apply(this, arguments);}
+		console.debug=function() {if(console.formerDebug) {console.formerDebug.apply(this, arguments);} conzole.debug.apply(this, arguments);}
 		console.info=function() {if(console.formerInfo) {console.formerInfo.apply(this, arguments);} conzole.info.apply(this, arguments);}
 		console.warn=function() {if(console.formerWarn) {console.formerWarn.apply(this, arguments);} conzole.warn.apply(this, arguments);}
 		console.error=function() {if(console.formerError) {console.formerError.apply(this, arguments);} conzole.error.apply(this, arguments);}
 		console.time=function(arg) {if(console.formerTime) {console.formerTime(arg);} conzole.time(arg);}
 		console.timeEnd=function(arg) {if(console.formerTimeEnd) {console.formerTimeEnd(arg);} conzole.timeEnd(arg);}
+		console.group=function(arg) {if(console.formerGroup) {console.formerGroup(arg);} conzole.group(arg);}
+		console.groupCollapsed=function(arg) {if(console.formerGroupCollapsed) {console.formerGroupCollapsed(arg);} conzole.groupCollapsed(arg);}
+		console.groupEnd=function(arg) {if(console.formerGroupEnd) {console.formerGroupEnd(arg);} conzole.groupEnd(arg);}
 	}
 	function init() {
 		wrapConsole();
-	
+
 		var ntime=now();
 		latestTime=ntime;
 		var body=document.getElementsByTagName('body')[0];
@@ -203,9 +221,9 @@ conzole=(function($parent, undefined) {
 		listen('keypress', document, returnKey);
 
 		watchInterval=setInterval(function() {updateWatchFields()}, 30);
-		
+
 		resize();
-		
+
 
 	}
 	function arrayGetIndex(array, value, property) {
@@ -218,9 +236,9 @@ conzole=(function($parent, undefined) {
 	function time(timerName) {
 		var index=arrayGetIndex(timers, timerName, 'name');
 		if(index===false) {
-			timers.push({name:timerName, time:now()});	
+			timers.push({name:timerName, time:now()});
 		} else {
-			timers[index].time=now();	
+			timers[index].time=now();
 		}
 	}
 	function timeEnd(timerName) {
@@ -230,7 +248,15 @@ conzole=(function($parent, undefined) {
 			log(timerObject.name+': '+(now()-timerObject.time)/1000);
 		}
 	}
-	
+	function group() {
+		messages.push(GROUP);
+	}
+	function groupCollapsed() {
+		messages.push(GROUP_COLLAPSED);
+	}
+	function groupEnd() {
+		messages.push(GROUP_END);
+	}
 	function open() {
 		isOpen=true;
 		if(autoUpdate) update();
@@ -313,15 +339,20 @@ conzole=(function($parent, undefined) {
 
 				for(i=0; i<temp.length; i++) {
 					obj=temp[i];
-					var msg=obj.message;
-					msg=msg.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-					var tdiff=obj.timeDiff/1000;
-					tdiffStr=tdiff>1 ? tdiff.toPrecision(4) : tdiff.toPrecision(2);
-					var timeStr=showTimeDiff ? tdiffStr : obj.time;
-					
-					var countString=obj.count>1?'('+obj.count+') ':'';
-					out+='<li class="'+obj.type+'"><em>'+timeStr+'</em> '+countString+msg+'</li>'
-					
+					if(typeof obj==='number') {
+						if(obj===GROUP) out+='<ul class="group">';
+						if(obj===GROUP_COLLAPSED) out+='<ul class="group_collapsed">';
+						if(obj===GROUP_END) out+='</ul>';
+					} else {
+						var msg=obj.message;
+						msg=msg.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+						var tdiff=obj.timeDiff/1000;
+						tdiffStr=tdiff>1 ? tdiff.toPrecision(4) : tdiff.toPrecision(2);
+						var timeStr=showTimeDiff ? tdiffStr : obj.time;
+
+						var countString=obj.count>1?'('+obj.count+') ':'';
+						out+='<li class="'+obj.type+'"><em>'+timeStr+'</em> '+countString+msg+'</li>'
+					}
 				}
 				list.innerHTML=out;
 			} else {
@@ -338,7 +369,7 @@ conzole=(function($parent, undefined) {
 		type=type || 'log';
 		var now2 = new Date();
 		var timeString = [addZero(now2.getHours()), addZero(now2.getMinutes()), addZero(now2.getSeconds())].join(':');
-		
+
 		var current={time:timeString, timeDiff:tdiff, message:message, type:type, count:1};
 		if(messages.length>0) {
 			var prev=messages[messages.length-1];
@@ -352,11 +383,14 @@ conzole=(function($parent, undefined) {
 		} else {
 			messages.push(current);
 		}
-		
-		
+
+
 		if(autoUpdate) update();
 	}
 	function log() {
+		doLog(arguments, 'log');
+	}
+	function debug() {
 		doLog(arguments, 'log');
 	}
 	function info() {
@@ -432,7 +466,7 @@ conzole=(function($parent, undefined) {
 								value=watching[field];
 								if(typeof value==='object') value=JSON.stringify(value);
 								if(ta.innerHTML!==value) ta.innerHTML=value;
-							}	
+							}
 						}
 					}
 				} else {
@@ -450,7 +484,7 @@ conzole=(function($parent, undefined) {
 			var html='', field, value;
 			watchFields=[];
 			for(field in watching) {
-				
+
 				if(watching.hasOwnProperty(field)) {
 					watchFields.push(field);
 					value=watching[field];
@@ -466,7 +500,7 @@ conzole=(function($parent, undefined) {
 			w.innerHTML=html;
 			resize();
 		}
-		
+
 	}
 	function resize() {
 		var cp=document.getElementById('conzolePanel');
@@ -509,9 +543,13 @@ conzole=(function($parent, undefined) {
 		toggleHelp:toggleHelp,
 		time:time,
 		timeEnd:timeEnd,
+		group:group,
+		groupCollapsed:groupCollapsed,
+		groupEnd:groupEnd,
 		watching:watching,
-		
+
 		log:log,
+		debug:debug,
 		info:info,
 		warn:warn,
 		error:error
