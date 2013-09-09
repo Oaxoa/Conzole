@@ -313,12 +313,14 @@ conzole=(function($parent, undefined) {
 
 				for(i=0; i<temp.length; i++) {
 					obj=temp[i];
+					var msg=obj.message;
+					msg=msg.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 					var tdiff=obj.timeDiff/1000;
 					tdiffStr=tdiff>1 ? tdiff.toPrecision(4) : tdiff.toPrecision(2);
 					var timeStr=showTimeDiff ? tdiffStr : obj.time;
 					
 					var countString=obj.count>1?'('+obj.count+') ':'';
-					out+='<li class="'+obj.type+'"><em>'+timeStr+'</em> '+countString+obj.message+'</li>'
+					out+='<li class="'+obj.type+'"><em>'+timeStr+'</em> '+countString+msg+'</li>'
 					
 				}
 				list.innerHTML=out;
@@ -327,7 +329,7 @@ conzole=(function($parent, undefined) {
 			}
 		}
 	}
-	function doLog(message, type) {
+	function doLog(message, type, caller) {
 		var ntime=now();
 		var tdiff=latestTime>0 ? ntime-latestTime : 0;
 		latestTime=ntime;

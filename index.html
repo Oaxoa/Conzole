@@ -87,8 +87,6 @@
 	<script type="text/javascript">
 		window.onload=function() {
 		
-			var o={foo:5, bar:100, baz:'bo', caz:true};
-			
 			var b00=document.getElementById('b00');
 			var b01=document.getElementById('b01');
 			var b02=document.getElementById('b02');
@@ -128,13 +126,16 @@
 			listen('click', b41, function() {conzole.watching.foo=null});
 			listen('click', b42, function() {delete conzole.watching.foo;});
 			
+            var a=Math.random()*100;
+            var o={foo:5, bar:100, baz:'bo', caz:true};
 			var interval=setInterval(function() {
-				window.a=parseInt(Math.random()*100);
+				a=parseInt(Math.random()*100);
 				o.foo=parseInt(Math.random()*9);
 				o.bar=Math.round(Math.random()*100)/100;
-				conzole.watching.SomeValue=a;
-				conzole.watching.SomeObject=o;
+				
 			}, 50);
+            conzole.watching.SomeVariable=a;
+			conzole.watching.SomeObject=o;
 		
 			console.log('Welcome to Conzole. This is my first console log.');
 			conzole.open();
@@ -217,12 +218,13 @@ Include it once and see it the same every time you open up the page, in every br
 </div>
 <div>
 	<h2>Watch</h2>
-    <p>Update of the values must be explicitly called every time. Autoupdate has been intentionally not implemented.</p>
+    <p>Primitive values are passed by value. Update of the values must be explicitly called every time by re-setting the watching variable.<br />
+    Object variables are passed by reference. conzole.watchin variable will refer to the original object and display changes.</p>
 	<button id="b40">conzole.watching.foo=Math.random()</button>
 	<button id="b41">conzole.watching.foo=null</button>
 	<button id="b42">delete conzole.watching.foo</button>
 </div>
-<script type="text/javascript">
+<!--<script type="text/javascript">
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -230,6 +232,6 @@ Include it once and see it the same every time you open up the page, in every br
 
   ga('create', 'UA-31925718-2', 'oaxoa.github.io');
   ga('send', 'pageview');
-</script>
+</script>-->
 </body>
 </html>
