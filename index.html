@@ -127,20 +127,12 @@
 			listen('click', b41, function() {conzole.watching.foo=null});
 			listen('click', b42, function() {delete conzole.watching.foo;});
 
-			var b50=document.getElementById('b50');
-			var b51=document.getElementById('b51');
-			var b52=document.getElementById('b52');
-
-			listen('click', b50, function() {console.group()});
-			listen('click', b51, function() {console.groupCollapsed()});
-			listen('click', b52, function() {console.groupEnd()});
-
             var a=Math.random()*100;
-            var o={foo:5, bar:100, baz:'bo', caz:true};
+            var o={foo:5, bar:100, baz:'boo', caz:true};
 			var interval=setInterval(function() {
 				a=parseInt(Math.random()*100);
 				o.foo=parseInt(Math.random()*9);
-				o.bar=Math.round(Math.random()*100)/100;
+				o.bar=Math.round(Math.random()*10000)/10000;
 
 			}, 50);
             conzole.watching.SomeVariable=a;
@@ -218,12 +210,6 @@ Include it once and see it the same every time you open up the page, in every br
 
     <p>You can pass multiple arguments to the functions having them concatenated by spaces</p>
     <button id="b14">console.log(3, 'multiplied by', 2, 'equals', 6);</button>
-</div>
-<div>
-	<h2>Groups</h2>
-	<button id="b50">console.group()</button><br />
-	<button id="b51">console.groupCollapsed()</button><br />
-	<button id="b52">console.groupEnd()</button>
 </div>
 <div>
 	<h2>Timers</h2>
