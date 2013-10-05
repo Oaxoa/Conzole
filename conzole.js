@@ -25,7 +25,7 @@ conzole=(function($parent, undefined) {
 		parent=$parent,
 		watching={},
 		watchFields=[]
-		;
+	;
 
 	init();
 	function now() {
@@ -35,32 +35,35 @@ conzole=(function($parent, undefined) {
 		if(!window.console) {
 			window.console={};
 			window.console.log=function() {}
+			window.console.debug=function() {}
 			window.console.info=function() {}
 			window.console.warn=function() {}
 			window.console.error=function() {}
 			window.console.time=function() {}
 			window.console.timeEnd=function() {}
-			window.console={};
+			//window.console={};
 		} else {
 			console.formerLog=console.log;
+			console.formerDebug=console.debug;
 			console.formerInfo=console.info;
 			console.formerWarn=console.warn;
 			console.formerError=console.error;
 			console.formerTime=console.time;
 			console.formerTimeEnd=console.timeEnd;
 		}
-		
-		
-		console.log=function(arg) {if(console.formerLog) {console.formerLog(arg);} conzole.log(arg);}
-		console.info=function(arg) {if(console.formerInfo) {console.formerInfo(arg);} conzole.info(arg);}
-		console.warn=function(arg) {if(console.formerWarn) {console.formerWarn(arg);} conzole.warn(arg);}
-		console.error=function(arg) {if(console.formerError) {console.formerError(arg);} conzole.error(arg);}
+
+
+		console.log=function() {if(console.formerLog) {console.formerLog.apply(this, arguments);} conzole.log.apply(this, arguments);}
+		console.debug=function() {if(console.formerDebug) {console.formerDebug.apply(this, arguments);} conzole.debug.apply(this, arguments);}
+		console.info=function() {if(console.formerInfo) {console.formerInfo.apply(this, arguments);} conzole.info.apply(this, arguments);}
+		console.warn=function() {if(console.formerWarn) {console.formerWarn.apply(this, arguments);} conzole.warn.apply(this, arguments);}
+		console.error=function() {if(console.formerError) {console.formerError.apply(this, arguments);} conzole.error.apply(this, arguments);}
 		console.time=function(arg) {if(console.formerTime) {console.formerTime(arg);} conzole.time(arg);}
 		console.timeEnd=function(arg) {if(console.formerTimeEnd) {console.formerTimeEnd(arg);} conzole.timeEnd(arg);}
 	}
 	function init() {
 		wrapConsole();
-	
+
 		var ntime=now();
 		latestTime=ntime;
 		var body=document.getElementsByTagName('body')[0];
@@ -203,9 +206,9 @@ conzole=(function($parent, undefined) {
 		listen('keypress', document, returnKey);
 
 		watchInterval=setInterval(function() {updateWatchFields()}, 30);
-		
+
 		resize();
-		
+
 
 	}
 	function arrayGetIndex(array, value, property) {
@@ -218,9 +221,9 @@ conzole=(function($parent, undefined) {
 	function time(timerName) {
 		var index=arrayGetIndex(timers, timerName, 'name');
 		if(index===false) {
-			timers.push({name:timerName, time:now()});	
+			timers.push({name:timerName, time:now()});
 		} else {
-			timers[index].time=now();	
+			timers[index].time=now();
 		}
 	}
 	function timeEnd(timerName) {
@@ -230,7 +233,6 @@ conzole=(function($parent, undefined) {
 			log(timerObject.name+': '+(now()-timerObject.time)/1000);
 		}
 	}
-	
 	function open() {
 		isOpen=true;
 		if(autoUpdate) update();
@@ -313,13 +315,14 @@ conzole=(function($parent, undefined) {
 
 				for(i=0; i<temp.length; i++) {
 					obj=temp[i];
+					var msg=obj.message;
+					msg=msg.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 					var tdiff=obj.timeDiff/1000;
 					tdiffStr=tdiff>1 ? tdiff.toPrecision(4) : tdiff.toPrecision(2);
 					var timeStr=showTimeDiff ? tdiffStr : obj.time;
-					
+
 					var countString=obj.count>1?'('+obj.count+') ':'';
-					out+='<li class="'+obj.type+'"><em>'+timeStr+'</em> '+countString+obj.message+'</li>'
-					
+					out+='<li class="'+obj.type+'"><em>'+timeStr+'</em> '+countString+msg+'</li>';
 				}
 				list.innerHTML=out;
 			} else {
@@ -327,14 +330,16 @@ conzole=(function($parent, undefined) {
 			}
 		}
 	}
-	function doLog(message, type) {
+	function doLog(message, type, caller) {
+		var args = Array.prototype.slice.call(message);
+		message=args.join(' ');
 		var ntime=now();
 		var tdiff=latestTime>0 ? ntime-latestTime : 0;
 		latestTime=ntime;
 		type=type || 'log';
 		var now2 = new Date();
 		var timeString = [addZero(now2.getHours()), addZero(now2.getMinutes()), addZero(now2.getSeconds())].join(':');
-		
+
 		var current={time:timeString, timeDiff:tdiff, message:message, type:type, count:1};
 		if(messages.length>0) {
 			var prev=messages[messages.length-1];
@@ -348,30 +353,33 @@ conzole=(function($parent, undefined) {
 		} else {
 			messages.push(current);
 		}
-		
-		
+
+
 		if(autoUpdate) update();
 	}
-	function log(arg) {
-		doLog(arg, 'log');
+	function log() {
+		doLog(arguments, 'log');
 	}
-	function info(arg) {
-		doLog(arg, 'info');
+	function debug() {
+		doLog(arguments, 'log');
 	}
-	function warn(arg) {
-		doLog(arg, 'warn');
+	function info() {
+		doLog(arguments, 'info');
 	}
-	function error(arg) {
-		doLog(arg, 'error');
+	function warn() {
+		doLog(arguments, 'warn');
+	}
+	function error() {
+		doLog(arguments, 'error');
 		open();
 	}
 	function returnKey(e) {
 		e=e || window.event;
 		var node = (e.target) ? e.target : ((e.srcElement) ? e.srcElement : null);
-
+		var code=e.charCode || e.keyCode;
 		var el;
 		if (node.type!=='textarea' && node.type!=='text' && node.type!=='password') {
-			switch(e.keyCode) {
+			switch(code) {
 				case 122: // z
 					toggle();
 					break;
@@ -428,7 +436,7 @@ conzole=(function($parent, undefined) {
 								value=watching[field];
 								if(typeof value==='object') value=JSON.stringify(value);
 								if(ta.innerHTML!==value) ta.innerHTML=value;
-							}	
+							}
 						}
 					}
 				} else {
@@ -446,7 +454,7 @@ conzole=(function($parent, undefined) {
 			var html='', field, value;
 			watchFields=[];
 			for(field in watching) {
-				
+
 				if(watching.hasOwnProperty(field)) {
 					watchFields.push(field);
 					value=watching[field];
@@ -462,7 +470,7 @@ conzole=(function($parent, undefined) {
 			w.innerHTML=html;
 			resize();
 		}
-		
+
 	}
 	function resize() {
 		var cp=document.getElementById('conzolePanel');
@@ -506,8 +514,9 @@ conzole=(function($parent, undefined) {
 		time:time,
 		timeEnd:timeEnd,
 		watching:watching,
-		
+
 		log:log,
+		debug:debug,
 		info:info,
 		warn:warn,
 		error:error
