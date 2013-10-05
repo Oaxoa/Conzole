@@ -376,10 +376,10 @@ conzole=(function($parent, undefined) {
 	function returnKey(e) {
 		e=e || window.event;
 		var node = (e.target) ? e.target : ((e.srcElement) ? e.srcElement : null);
-
+		var code=e.charCode || e.keyCode;
 		var el;
 		if (node.type!=='textarea' && node.type!=='text' && node.type!=='password') {
-			switch(e.keyCode) {
+			switch(code) {
 				case 122: // z
 					toggle();
 					break;
